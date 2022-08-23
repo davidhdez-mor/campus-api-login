@@ -50,7 +50,7 @@ namespace LoginAPI.Services.Services
                 Subject = new ClaimsIdentity(claims.ToArray()),
                 Issuer = _configuration["JWT:Issuer"],
                 Audience = _configuration["JWT:Audience"],
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),
                     SecurityAlgorithms.HmacSha256Signature)
             };
