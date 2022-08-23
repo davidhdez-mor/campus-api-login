@@ -15,7 +15,7 @@ namespace LoginAPI.Persistence
                 options.UseSqlServer(configuration.GetConnectionString("SqlServer"),
                     x => x.MigrationsAssembly(typeof(DependencyContainer).Assembly.GetName().Name)));
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             return services;
         }

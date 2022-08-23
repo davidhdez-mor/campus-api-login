@@ -12,19 +12,10 @@ namespace LoginAPI.Api.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IJwtService _jwt;
-        private readonly IUserService _userService;
 
-        public LoginController(IJwtService jwt, IUserService userService)
+        public LoginController(IJwtService jwt)
         {
             _jwt = jwt;
-            _userService = userService;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _userService.GetUsers();
-            return Ok(users);
         }
 
         [AllowAnonymous]

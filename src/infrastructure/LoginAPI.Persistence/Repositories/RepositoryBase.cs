@@ -18,29 +18,29 @@ namespace LoginAPI.Persistence.Repositories
             LoginContext = loginContext;
         }
 
-        public async Task<List<T>> GetAll()
+        public virtual async Task<List<T>> GetAll()
         {
             return await LoginContext.Set<T>().ToListAsync();
         }
 
-        public async Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression)
+        public virtual async Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression)
         {
             return await LoginContext.Set<T>()
                 .Where(expression)
                 .ToListAsync();
         }
 
-        public void Create(T entity)
+        public virtual void Create(T entity)
         {
             LoginContext.Set<T>().Add(entity);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             LoginContext.Set<T>().Update(entity);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             LoginContext.Set<T>().Remove(entity);
         }

@@ -22,8 +22,8 @@ namespace LoginAPI.Api
                     opts.SaveToken = true;
                     opts.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = configuration["JWT:Issuer"],

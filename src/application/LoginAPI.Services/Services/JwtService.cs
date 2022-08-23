@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -35,15 +36,20 @@ namespace LoginAPI.Services.Services
             if (user is null || !user.Password.Equals(userWriteDto.Password))
                 return null;
 
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, user.Username));
+            foreach (var role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
+            }
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Role, "admin")
-                }),
+                Subject = new ClaimsIdentity(claims.ToArray()),
+                Issuer = _configuration["JWT:Issuer"],
+                Audience = _configuration["JWT:Audience"],
                 Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),
                     SecurityAlgorithms.HmacSha256Signature)

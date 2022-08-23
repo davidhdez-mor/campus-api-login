@@ -4,11 +4,10 @@ using LoginAPI.Persistence.Context;
 
 namespace LoginAPI.Persistence.Repositories
 {
-    public class TokenRepository : RepositoryBase<Tokens>, ITokenRepository
+    public class RoleRepository : RepositoryBase<Role>, IRoleRepository
     {
-        public TokenRepository(LoginContext loginContext) : base(loginContext)
+        public RoleRepository(LoginContext loginContext) : base(loginContext)
         {
         }
     }
-
 }

@@ -8,7 +8,8 @@ namespace LoginAPI.Dtos.Profiles
     {
         public UserProfile()
         {
-            CreateMap<User, UserReadDto>();
+            CreateMap<User, UserReadDto>().ReverseMap();
+            CreateMap<User, RoleReadDto>();
             CreateMap<UserWriteDto, User>();
         }
     }

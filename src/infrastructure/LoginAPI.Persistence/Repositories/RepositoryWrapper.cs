@@ -12,7 +12,7 @@ namespace LoginAPI.Persistence.Repositories
         private readonly IServiceProvider _serviceProvider;
 
         public IUserRepository UserRepository => _serviceProvider.GetService<IUserRepository>();
-        public ITokenRepository TokenRepository => _serviceProvider.GetService<ITokenRepository>();
+        public IRoleRepository RoleRepository => _serviceProvider.GetService<IRoleRepository>();
 
         public RepositoryWrapper(LoginContext context, IServiceProvider serviceProvider)
         {
