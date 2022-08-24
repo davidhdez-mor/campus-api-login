@@ -7,5 +7,8 @@
         <ProjectReference Include="..\LoginAPI.Dtos\LoginAPI.Dtos.csproj" />
         <ProjectReference Include="..\..\infrastructure\LoginAPI.Persistence\LoginAPI.Persistence.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="5.0.17" />
+    </ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ using LoginAPI.Dtos.DTOs;
 using LoginAPI.Entities.Models;
 using LoginAPI.Persistence.Abstractions;
 using LoginAPI.Services.Abstractions;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace LoginAPI.Services.Services
 {
@@ -14,11 +15,13 @@ namespace LoginAPI.Services.Services
     {
         private readonly IRepositoryWrapper _repository;
         private readonly IMapper _mapper;
+        private readonly IDataProtector _protector;
 
-        public UserService(IRepositoryWrapper repository, IMapper mapper)
+        public UserService(IRepositoryWrapper repository, IMapper mapper, IDataProtectionProvider provider)
         {
             _repository = repository;
             _mapper = mapper;
+            _protector = provider.CreateProtector("User.Protector");
         }
         
         public async Task<IEnumerable<UserReadDto>> GetUsers()
@@ -43,10 +46,11 @@ namespace LoginAPI.Services.Services
             var roles = await _repository
                 .RoleRepository
                 .GetByCondition(role => roleIds.Any( roleId => role.Id.Equals(roleId)));
+           
             var user = new User()
             {
                 Username = userWriteDto.Username,
-                Password = userWriteDto.Password,
+                Password = _protector.Protect(userWriteDto.Password),
                 Roles = roles
             };
             _repository.UserRepository.Create(user);
@@ -72,7 +76,7 @@ namespace LoginAPI.Services.Services
                 return null;
 
             userToUpdate.Username = userWriteDto.Username;
-            userToUpdate.Password = userWriteDto.Password;
+            userToUpdate.Password = _protector.Protect(userWriteDto.Password);
             userToUpdate.Roles = roles;
             
             _repository.UserRepository.Update(userToUpdate);

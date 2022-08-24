@@ -9,6 +9,7 @@ using LoginAPI.Dtos.DTOs;
 using LoginAPI.Entities.Models;
 using LoginAPI.Persistence.Abstractions;
 using LoginAPI.Services.Abstractions;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,11 +19,13 @@ namespace LoginAPI.Services.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IRepositoryWrapper _repository;
+        private readonly IDataProtector _protector;
 
-        public JwtService(IConfiguration configuration, IRepositoryWrapper repository)
+        public JwtService(IConfiguration configuration, IRepositoryWrapper repository, IDataProtectionProvider provider)
         {
             _repository = repository;
             _configuration = configuration;
+            _protector = provider.CreateProtector("User.Protector");
         }
 
         public async Task<Tokens> Authenticate(UserWriteDto userWriteDto)
@@ -33,7 +36,7 @@ namespace LoginAPI.Services.Services
             
             var user = users.FirstOrDefault();
             
-            if (user is null || !user.Password.Equals(userWriteDto.Password))
+            if (user is null || !_protector.Unprotect(user.Password).Equals(userWriteDto.Password))
                 return null;
 
             var claims = new List<Claim>();
