@@ -20,7 +20,7 @@ namespace IoC
             return services;
         }
 
-        public static IApplicationBuilder UseMiddlewares(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCustomMiddlewares(this IApplicationBuilder app)
         {
             app.UseGlobalExceptionHandler();
             return app;
