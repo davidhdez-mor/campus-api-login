@@ -2,6 +2,8 @@
 using LoginAPI.Dtos;
 using LoginAPI.Persistence;
 using LoginAPI.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,12 @@ namespace IoC
                 .AddPersistence(configuration)
                 .AddServices();
             return services;
+        }
+
+        public static IApplicationBuilder UseMiddlewares(this IApplicationBuilder app)
+        {
+            app.UseGlobalExceptionHandler();
+            return app;
         }
     }
 }

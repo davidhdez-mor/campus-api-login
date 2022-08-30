@@ -1,5 +1,7 @@
 using System.Text;
+using LoginAPI.Api.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +34,12 @@ namespace LoginAPI.Api
                     };
                 });
             return services;
+        }
+
+        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionMiddleware>();
+            return app;
         }
     }
 }

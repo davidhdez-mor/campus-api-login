@@ -37,6 +37,8 @@ namespace LoginAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddlewares();
+
             app.UseCors("login");
             // app.UseHttpsRedirection();
 
